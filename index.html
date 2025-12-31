@@ -1,8 +1,3 @@
-Поздравительный сайт "С Новым Годом, Бабушка!"
-
-Я создам красивый новогодний сайт с галереей изображений и интерактивными подарочными промокодами. Вот полный код:
-
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,21 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>С Новым Годом, Бабушка!</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Marck+Script&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        :root {
+            --gold: #FFD700;
+            --gold-light: #FFEC8B;
+            --gold-glow: rgba(255, 215, 0, 0.7);
+            --red: #C62828;
+            --green: #2E7D32;
+            --blue-dark: #0a2e38;
+            --blue-medium: #1a5f7a;
+            --blue-light: #4fc3f7;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.5);
         }
         
         body {
-            background: linear-gradient(135deg, #0a2e38 0%, #1a5f7a 100%);
-            color: #fff;
+            background: linear-gradient(135deg, #0a2e38 0%, #1a5f7a 30%, #4fc3f7 100%);
+            color: var(--white);
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
         
+        /* Анимированный фон */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: float 25s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            33% {
+                transform: translateY(-30px) rotate(120deg);
+            }
+            66% {
+                transform: translateY(15px) rotate(240deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+                opacity: 0.7;
+            }
+        }
+        
+        /* Снежинки с улучшенной анимацией */
         .snowflakes {
             position: fixed;
             top: 0;
@@ -32,14 +78,39 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 1;
+            z-index: -1;
         }
         
         .snowflake {
             position: absolute;
-            background-color: white;
+            background-color: var(--white);
             border-radius: 50%;
             opacity: 0.8;
+            filter: blur(0.5px);
+            box-shadow: 0 0 5px var(--blue-light);
+        }
+        
+        /* Световые блики */
+        .light-sparkle {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            filter: blur(5px);
+            animation: sparkle 4s infinite alternate;
+            z-index: -1;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.2);
+            }
         }
         
         .container {
@@ -47,42 +118,69 @@
             margin: 0 auto;
             padding: 20px;
             position: relative;
-            z-index: 2;
+            z-index: 10;
         }
         
+        /* Заголовок с анимацией */
         header {
             text-align: center;
-            padding: 40px 20px;
+            padding: 60px 20px 40px;
             position: relative;
         }
         
         .main-title {
-            font-size: 3.5rem;
-            color: #FFD700;
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+            font-size: 4rem;
+            color: var(--gold);
+            text-shadow: 
+                0 0 10px var(--gold-glow),
+                0 0 20px var(--gold-glow),
+                0 0 30px var(--gold-glow),
+                0 0 40px rgba(255, 100, 0, 0.5);
             margin-bottom: 20px;
             font-weight: bold;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             position: relative;
             display: inline-block;
+            font-family: 'Dancing Script', cursive;
+            animation: titleGlow 3s infinite alternate;
         }
         
-        .main-title::after {
-            content: "❄";
-            position: absolute;
-            right: -50px;
-            top: 10px;
-            font-size: 2.5rem;
-            animation: spin 4s linear infinite;
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 
+                    0 0 10px var(--gold-glow),
+                    0 0 20px var(--gold-glow),
+                    0 0 30px var(--gold-glow);
+                transform: scale(1);
+            }
+            100% {
+                text-shadow: 
+                    0 0 15px var(--gold-glow),
+                    0 0 30px var(--gold-glow),
+                    0 0 45px var(--gold-glow),
+                    0 0 60px rgba(255, 100, 0, 0.7);
+                transform: scale(1.02);
+            }
         }
         
-        .main-title::before {
-            content: "❄";
+        .title-decoration {
             position: absolute;
-            left: -50px;
-            top: 10px;
-            font-size: 2.5rem;
-            animation: spin 4s linear infinite reverse;
+            font-size: 3rem;
+            color: var(--gold-light);
+            opacity: 0.8;
+            filter: drop-shadow(0 0 10px var(--gold-glow));
+            animation: spin 8s linear infinite;
+        }
+        
+        .title-decoration.left {
+            left: 10%;
+            top: 20%;
+            animation-direction: reverse;
+        }
+        
+        .title-decoration.right {
+            right: 10%;
+            top: 20%;
         }
         
         @keyframes spin {
@@ -90,22 +188,67 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* Секция с галереей */
         .gallery-section {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 40px auto;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 25px;
+            padding: 40px 30px;
+            margin: 50px auto;
+            backdrop-filter: blur(15px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-section:hover {
+            transform: translateY(-10px);
+        }
+        
+        .gallery-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, 
+                var(--gold), var(--blue-light), var(--gold));
+            animation: borderFlow 3s linear infinite;
+        }
+        
+        @keyframes borderFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
         }
         
         .gallery-title {
             text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            color: #FFD700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            font-family: 'Marck Script', cursive;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .gallery-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
         }
         
         .gallery-container {
@@ -114,95 +257,187 @@
             align-items: center;
         }
         
-        .gallery-image {
+        .gallery-image-wrapper {
             width: 100%;
-            max-width: 600px;
-            height: 400px;
-            border-radius: 15px;
+            max-width: 700px;
+            height: 450px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
         
-        .gallery-image img {
+        .gallery-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            transition: transform 1s cubic-bezier(0.2, 0.8, 0.3, 1);
+            transform-origin: center;
         }
         
-        .gallery-image:hover img {
-            transform: scale(1.05);
+        .gallery-image-wrapper:hover .gallery-image {
+            transform: scale(1.08) rotate(0.5deg);
         }
         
         .gallery-controls {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
-            margin-top: 20px;
+            gap: 40px;
+            margin-top: 30px;
         }
         
         .gallery-btn {
-            background-color: rgba(255, 215, 0, 0.2);
-            border: 2px solid #FFD700;
-            color: #FFD700;
-            width: 50px;
-            height: 50px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 215, 0, 0.1));
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gallery-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .gallery-btn:hover::before {
+            left: 100%;
         }
         
         .gallery-btn:hover {
-            background-color: rgba(255, 215, 0, 0.4);
-            transform: scale(1.1);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.5), rgba(255, 215, 0, 0.3));
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 0 25px var(--gold-glow);
         }
         
         .image-counter {
-            font-size: 1.3rem;
-            color: #FFD700;
+            font-size: 1.5rem;
+            color: var(--gold);
             font-weight: bold;
-            min-width: 100px;
+            min-width: 120px;
             text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
+        /* Секция с подарками */
         .promo-section {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 40px auto;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 25px;
+            padding: 50px 30px;
+            margin: 60px auto;
+            backdrop-filter: blur(15px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
         }
         
         .promo-title {
             text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            color: #FFD700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            font-family: 'Marck Script', cursive;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .promo-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        
+        .promo-subtitle {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
         }
         
         .gifts-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
             margin-top: 40px;
         }
         
         .gift-box {
-            width: 200px;
-            height: 200px;
+            width: 220px;
+            height: 220px;
             perspective: 1000px;
             cursor: pointer;
+            position: relative;
+        }
+        
+        .gift-box::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, 
+                var(--gold), var(--blue-light), var(--red), var(--green), var(--gold));
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background-size: 400% 400%;
+            animation: giftBorderGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes giftBorderGlow {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        .gift-box:hover::before {
+            opacity: 1;
         }
         
         .gift-inner {
@@ -210,7 +445,7 @@
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
-            transition: transform 0.8s;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .gift-box.open .gift-inner {
@@ -227,82 +462,137 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .gift-front {
-            background: linear-gradient(45deg, #c62828, #e53935);
-            color: white;
-        }
-        
-        .gift-front i {
-            font-size: 4rem;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 5px 3px rgba(0,0,0,0.3));
-        }
-        
-        .gift-front h3 {
-            font-size: 1.5rem;
-            text-align: center;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-        
-        .gift-back {
-            background: linear-gradient(45deg, #2e7d32, #4caf50);
-            color: white;
-            transform: rotateY(180deg);
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
             overflow: hidden;
         }
         
-        .promo-code {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-            word-break: break-all;
+        .gift-front {
+            background: linear-gradient(135deg, var(--red), #e53935);
+            color: var(--white);
         }
         
-        .promo-description {
-            font-size: 1rem;
-            text-align: center;
-            line-height: 1.4;
-        }
-        
-        .decoration {
-            position: absolute;
-            z-index: 1;
-        }
-        
-        .tree-left {
-            left: 20px;
-            bottom: 20px;
-            font-size: 5rem;
-            color: #2e7d32;
-            opacity: 0.7;
-        }
-        
-        .tree-right {
-            right: 20px;
-            bottom: 20px;
-            font-size: 5rem;
-            color: #2e7d32;
-            opacity: 0.7;
-        }
-        
-        .garland {
+        .gift-front::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 30px;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 70%);
+        }
+        
+        .gift-front i {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.4));
+            transition: transform 0.5s ease;
+        }
+        
+        .gift-box:hover .gift-front i {
+            transform: scale(1.1) rotate(10deg);
+        }
+        
+        .gift-front h3 {
+            font-size: 1.6rem;
+            text-align: center;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+        
+        .gift-back {
+            background: linear-gradient(135deg, var(--green), #4caf50);
+            color: var(--white);
+            transform: rotateY(180deg);
+        }
+        
+        .gift-back::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 70%, rgba(255,255,255,0.2) 0%, transparent 70%);
+        }
+        
+        .promo-code {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px dashed rgba(255, 255, 255, 0.5);
+            width: 100%;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+        
+        .promo-description {
+            font-size: 1.1rem;
+            text-align: center;
+            line-height: 1.5;
+            z-index: 1;
+        }
+        
+        /* Дополнительные украшения */
+        .decoration {
+            position: fixed;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .tree-left {
+            left: 30px;
+            bottom: 30px;
+            font-size: 8rem;
+            color: var(--green);
+            opacity: 0.5;
+            filter: drop-shadow(0 0 10px rgba(46, 125, 50, 0.7));
+            animation: sway 10s ease-in-out infinite;
+        }
+        
+        .tree-right {
+            right: 30px;
+            bottom: 30px;
+            font-size: 8rem;
+            color: var(--green);
+            opacity: 0.5;
+            filter: drop-shadow(0 0 10px rgba(46, 125, 50, 0.7));
+            animation: sway 12s ease-in-out infinite reverse;
+        }
+        
+        @keyframes sway {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+            75% {
+                transform: translateY(5px) rotate(-1deg);
+            }
+        }
+        
+        /* Гирлянда с улучшенной анимацией */
+        .garland {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
             background: linear-gradient(90deg, 
                 #ff0000, #ff8800, #ffff00, #00ff00, 
                 #00ffff, #0000ff, #8800ff, #ff0000);
             background-size: 800% 100%;
-            animation: garlandMove 10s linear infinite;
-            border-radius: 0 0 15px 15px;
-            z-index: 3;
+            animation: garlandMove 8s linear infinite;
+            border-radius: 0 0 20px 20px;
+            z-index: 5;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            filter: brightness(1.2);
         }
         
         @keyframes garlandMove {
@@ -310,30 +600,75 @@
             100% { background-position: 800% 0%; }
         }
         
+        /* Сообщение */
         .message {
             text-align: center;
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin: 30px auto;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin: 50px auto;
             max-width: 800px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
+            padding: 30px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(0);
+            transition: transform 0.5s ease;
         }
         
+        .message:hover {
+            transform: translateY(-5px);
+        }
+        
+        .message p {
+            margin-bottom: 15px;
+            font-family: 'Marck Script', cursive;
+            font-size: 1.6rem;
+        }
+        
+        /* Подвал */
         footer {
             text-align: center;
-            padding: 30px;
-            margin-top: 40px;
+            padding: 40px 20px;
+            margin-top: 60px;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            position: relative;
         }
         
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        
+        /* Конфетти эффект */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            z-index: 100;
+            pointer-events: none;
+        }
+        
+        /* Адаптивность */
         @media (max-width: 768px) {
             .main-title {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
+            }
+            
+            .gallery-image-wrapper {
+                height: 350px;
             }
             
             .gifts-container {
@@ -342,17 +677,30 @@
             }
             
             .tree-left, .tree-right {
-                font-size: 3rem;
+                font-size: 5rem;
+                opacity: 0.3;
+            }
+            
+            .title-decoration {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Гирлянда -->
-    <div class="garland"></div>
+    <!-- Анимированный фон -->
+    <div class="background-animation" id="background-animation"></div>
+    
+    <!-- Световые блики -->
+    <div class="light-sparkle" style="top: 20%; left: 15%;"></div>
+    <div class="light-sparkle" style="top: 60%; right: 10%; animation-delay: 1s;"></div>
+    <div class="light-sparkle" style="bottom: 20%; left: 20%; animation-delay: 2s; width: 150px; height: 150px;"></div>
     
     <!-- Снежинки -->
     <div class="snowflakes" id="snowflakes"></div>
+    
+    <!-- Гирлянда -->
+    <div class="garland"></div>
     
     <!-- Новогодние украшения -->
     <div class="decoration tree-left">🎄</div>
@@ -360,18 +708,22 @@
     
     <div class="container">
         <header>
+            <div class="title-decoration left">❄</div>
             <h1 class="main-title">С Новым Годом, Бабушка!</h1>
+            <div class="title-decoration right">❄</div>
         </header>
         
         <section class="message">
-            <p>Дорогая бабушка! Пусть в новом году сбудутся все твои мечты, здоровье будет крепким, а сердце наполняется радостью от каждого дня! Мы тебя очень любим и ценим!</p>
+            <p>Дорогая бабушка!</p>
+            <p>Пусть в новом году сбудутся все твои мечты, здоровье будет крепким, а сердце наполняется радостью от каждого дня!</p>
+            <p>Мы тебя очень любим и ценим!</p>
         </section>
         
         <section class="gallery-section">
             <h2 class="gallery-title">Это мы с вами</h2>
             <div class="gallery-container">
-                <div class="gallery-image">
-                    <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Новогодняя семья" id="current-image">
+                <div class="gallery-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Новогодняя семья" class="gallery-image" id="current-image">
                 </div>
                 
                 <div class="gallery-controls">
@@ -379,7 +731,7 @@
                         <i class="fas fa-chevron-left"></i>
                     </button>
                     <div class="image-counter">
-                        <span id="current-index">1</span> / <span id="total-images">4</span>
+                        <span id="current-index">1</span> / <span id="total-images">5</span>
                     </div>
                     <button class="gallery-btn" id="next-btn">
                         <i class="fas fa-chevron-right"></i>
@@ -390,7 +742,7 @@
         
         <section class="promo-section">
             <h2 class="promo-title">Небольшие промокоды - подарочки</h2>
-            <p style="text-align: center; margin-bottom: 20px; font-size: 1.2rem;">Нажми на подарки, чтобы открыть промокоды!</p>
+            <p class="promo-subtitle">Нажми на подарки, чтобы открыть промокоды! Каждый подарок содержит специальный сюрприз для тебя!</p>
             
             <div class="gifts-container">
                 <!-- Подарок 1 -->
@@ -439,17 +791,19 @@
         
         <footer>
             <p>С любовью, ваша семья. © 2023 Новый Год</p>
-            <p style="margin-top: 10px;">Все промокоды действительны до 31.01.2024</p>
+            <p style="margin-top: 15px;">Все промокоды действительны до 31.01.2024</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.7;">Сайт создан с любовью специально для бабушки</p>
         </footer>
     </div>
     
     <script>
         // Галерея изображений
         const images = [
-            "https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
-            "https://images.unsplash.com/photo-1543083115-638c32cd3d58?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80",
+            "https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+            "https://images.unsplash.com/photo-1579113800032-c38bd7635818?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
             "https://images.unsplash.com/photo-1576831387370-9a6c5ba0a0f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
-            "https://images.unsplash.com/photo-1485796826113-174aa68fd81b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+            "https://images.unsplash.com/photo-1485796826113-174aa68fd81b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            "https://images.unsplash.com/photo-1452626212852-811d58933cae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
         ];
         
         let currentImageIndex = 0;
@@ -466,17 +820,45 @@
         function updateImage() {
             currentImageElement.src = images[currentImageIndex];
             currentIndexElement.textContent = currentImageIndex + 1;
+            
+            // Анимация перехода
+            currentImageElement.style.opacity = '0.7';
+            setTimeout(() => {
+                currentImageElement.style.opacity = '1';
+                currentImageElement.style.transition = 'opacity 0.5s ease';
+            }, 50);
         }
         
         // События для кнопок
         prevBtn.addEventListener('click', () => {
             currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
             updateImage();
+            createConfetti();
         });
         
         nextBtn.addEventListener('click', () => {
             currentImageIndex = (currentImageIndex + 1) % images.length;
             updateImage();
+            createConfetti();
+        });
+        
+        // Автопереключение изображений каждые 8 секунд
+        let autoSlide = setInterval(() => {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateImage();
+        }, 8000);
+        
+        // Останавливаем автопереключение при наведении на галерею
+        const gallerySection = document.querySelector('.gallery-section');
+        gallerySection.addEventListener('mouseenter', () => {
+            clearInterval(autoSlide);
+        });
+        
+        gallerySection.addEventListener('mouseleave', () => {
+            autoSlide = setInterval(() => {
+                currentImageIndex = (currentImageIndex + 1) % images.length;
+                updateImage();
+            }, 8000);
         });
         
         // Инициализация
@@ -495,21 +877,61 @@
                     gifts.forEach(g => g.classList.remove('open'));
                     // Затем откроем текущий
                     gift.classList.add('open');
+                    
+                    // Создаем конфетти при открытии подарка
+                    createConfetti();
+                    
+                    // Копируем промокод в буфер обмена
+                    const promoCode = gift.querySelector('.promo-code').textContent;
+                    copyToClipboard(promoCode);
+                    
+                    // Показываем сообщение о скопированном промокоде
+                    showMessage(`Промокод "${promoCode}" скопирован в буфер обмена!`);
                 }
             });
         });
         
-        // Создание снежинок
+        // Создание плавающих элементов фона
+        function createFloatingElements() {
+            const container = document.getElementById('background-animation');
+            const elementCount = 15;
+            
+            for (let i = 0; i < elementCount; i++) {
+                const element = document.createElement('div');
+                element.classList.add('floating-element');
+                
+                // Случайный размер от 50 до 200px
+                const size = Math.random() * 150 + 50;
+                element.style.width = `${size}px`;
+                element.style.height = `${size}px`;
+                
+                // Случайная начальная позиция
+                element.style.left = `${Math.random() * 100}%`;
+                element.style.top = `${Math.random() * 100}%`;
+                
+                // Случайная продолжительность анимации
+                const duration = Math.random() * 20 + 20;
+                element.style.animationDuration = `${duration}s`;
+                
+                // Случайная задержка
+                const delay = Math.random() * 10;
+                element.style.animationDelay = `${delay}s`;
+                
+                container.appendChild(element);
+            }
+        }
+        
+        // Создание снежинок с улучшенной анимацией
         function createSnowflakes() {
             const snowflakesContainer = document.getElementById('snowflakes');
-            const snowflakeCount = 80;
+            const snowflakeCount = 150;
             
             for (let i = 0; i < snowflakeCount; i++) {
                 const snowflake = document.createElement('div');
                 snowflake.classList.add('snowflake');
                 
-                // Случайный размер от 3 до 10px
-                const size = Math.random() * 7 + 3;
+                // Случайный размер от 2 до 8px
+                const size = Math.random() * 6 + 2;
                 snowflake.style.width = `${size}px`;
                 snowflake.style.height = `${size}px`;
                 
@@ -518,11 +940,11 @@
                 snowflake.style.top = `${Math.random() * 100}%`;
                 
                 // Случайная продолжительность анимации
-                const duration = Math.random() * 10 + 10;
+                const duration = Math.random() * 15 + 10;
                 snowflake.style.animation = `fall ${duration}s linear infinite`;
                 
                 // Случайная задержка анимации
-                const delay = Math.random() * 10;
+                const delay = Math.random() * 15;
                 snowflake.style.animationDelay = `${delay}s`;
                 
                 snowflakesContainer.appendChild(snowflake);
@@ -533,11 +955,17 @@
             style.textContent = `
                 @keyframes fall {
                     0% {
-                        transform: translateY(-100px) rotate(0deg);
+                        transform: translateY(-100px) translateX(0) rotate(0deg);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: 1;
+                    }
+                    90% {
                         opacity: 1;
                     }
                     100% {
-                        transform: translateY(100vh) rotate(360deg);
+                        transform: translateY(100vh) translateX(${Math.random() * 100 - 50}px) rotate(${Math.random() * 360}deg);
                         opacity: 0;
                     }
                 }
@@ -545,52 +973,144 @@
             document.head.appendChild(style);
         }
         
-        // Запускаем создание снежинок после загрузки страницы
-        window.addEventListener('DOMContentLoaded', createSnowflakes);
+        // Создание конфетти
+        function createConfetti() {
+            const colors = ['#FFD700', '#C62828', '#2E7D32', '#4fc3f7', '#FFFFFF'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                // Случайный цвет
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.backgroundColor = color;
+                
+                // Случайный размер
+                const size = Math.random() * 10 + 5;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                
+                // Случайная форма
+                if (Math.random() > 0.5) {
+                    confetti.style.borderRadius = '50%';
+                }
+                
+                // Случайная начальная позиция
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.top = `${Math.random() * 100}%`;
+                
+                // Анимация
+                const animationDuration = Math.random() * 3 + 2;
+                confetti.style.animation = `confettiFall ${animationDuration}s ease-out forwards`;
+                
+                document.body.appendChild(confetti);
+                
+                // Удаляем конфетти после анимации
+                setTimeout(() => {
+                    confetti.remove();
+                }, animationDuration * 1000);
+            }
+            
+            // Добавляем стили для конфетти
+            const style = document.createElement('style');
+            if (!document.querySelector('#confetti-style')) {
+                style.id = 'confetti-style';
+                style.textContent = `
+                    @keyframes confettiFall {
+                        0% {
+                            transform: translateY(-100px) rotate(0deg);
+                            opacity: 1;
+                        }
+                        100% {
+                            transform: translateY(100vh) rotate(${Math.random() * 720 - 360}deg) translateX(${Math.random() * 200 - 100}px);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // Копирование в буфер обмена
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+        
+        // Показать сообщение
+        function showMessage(message) {
+            // Создаем элемент для сообщения
+            const messageEl = document.createElement('div');
+            messageEl.textContent = message;
+            messageEl.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #2E7D32, #4CAF50);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 10px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                z-index: 1000;
+                font-weight: bold;
+                animation: slideIn 0.5s ease, fadeOut 0.5s ease 2.5s forwards;
+                border-left: 5px solid #FFD700;
+            `;
+            
+            document.body.appendChild(messageEl);
+            
+            // Удаляем сообщение через 3 секунды
+            setTimeout(() => {
+                messageEl.remove();
+            }, 3000);
+            
+            // Добавляем стили для анимации сообщения
+            const style = document.createElement('style');
+            if (!document.querySelector('#message-style')) {
+                style.id = 'message-style';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from {
+                            transform: translateX(100%);
+                            opacity: 0;
+                        }
+                        to {
+                            transform: translateX(0);
+                            opacity: 1;
+                        }
+                    }
+                    
+                    @keyframes fadeOut {
+                        from {
+                            opacity: 1;
+                        }
+                        to {
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // Запускаем создание анимаций после загрузки страницы
+        window.addEventListener('DOMContentLoaded', () => {
+            createFloatingElements();
+            createSnowflakes();
+            
+            // Добавляем параллакс эффект при движении мыши
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                const y = (e.clientY / window.innerHeight - 0.5) * 20;
+                
+                document.querySelector('.container').style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
     </script>
 </body>
 </html>
-```
 
-Как выложить сайт на временный хостинг
-
-Вы можете легко выложить этот сайт на бесплатный временный хостинг одним из следующих способов:
-
-1. GitHub Pages (самый простой способ):
-
-· Создайте аккаунт на GitHub если его нет
-· Создайте новый репозиторий
-· Загрузите этот HTML файл с именем index.html
-· В настройках репозитория найдите раздел "Pages" и выберите ветку main
-· Через пару минут сайт будет доступен по адресу ваш-логин.github.io/имя-репозитория
-
-2. Netlify:
-
-· Зайдите на netlify.com
-· Перетащите HTML файл в область загрузки
-· Сайт будет сразу развернут с собственным доменом
-
-3. Vercel:
-
-· Зарегистрируйтесь на vercel.com
-· Нажмите "New Project"
-· Загрузите HTML файл
-· Получите временный URL
-
-4. 000webhost:
-
-· Бесплатный хостинг с поддержкой HTML
-· Зарегистрируйтесь на 000webhost.com
-· Загрузите файлы через файловый менеджер
-
-Самый быстрый вариант:
-
-Скопируйте весь код выше, сохраните как index.html на компьютере, затем просто откройте этот файл в браузере - сайт будет работать локально. Чтобы поделиться с бабушкой, можно использовать GitHub Pages или отправить ей файл по почте.
-
-Сайт включает:
-
-· Анимированные снежинки
-· Галерею с листанием изображений
-· Интерактивные подарки с промокодами
-· Новогодний дизайн с гирляндами и украшениями
-· Адаптивность для мобильных устройств
