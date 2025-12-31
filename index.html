@@ -1,0 +1,596 @@
+Поздравительный сайт "С Новым Годом, Бабушка!"
+
+Я создам красивый новогодний сайт с галереей изображений и интерактивными подарочными промокодами. Вот полный код:
+
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Новым Годом, Бабушка!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a2e38 0%, #1a5f7a 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .snowflakes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .snowflake {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+        
+        .main-title {
+            font-size: 3.5rem;
+            color: #FFD700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+            margin-bottom: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .main-title::after {
+            content: "❄";
+            position: absolute;
+            right: -50px;
+            top: 10px;
+            font-size: 2.5rem;
+            animation: spin 4s linear infinite;
+        }
+        
+        .main-title::before {
+            content: "❄";
+            position: absolute;
+            left: -50px;
+            top: 10px;
+            font-size: 2.5rem;
+            animation: spin 4s linear infinite reverse;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .gallery-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px auto;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gallery-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .gallery-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .gallery-image {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .gallery-btn {
+            background-color: rgba(255, 215, 0, 0.2);
+            border: 2px solid #FFD700;
+            color: #FFD700;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-btn:hover {
+            background-color: rgba(255, 215, 0, 0.4);
+            transform: scale(1.1);
+        }
+        
+        .image-counter {
+            font-size: 1.3rem;
+            color: #FFD700;
+            font-weight: bold;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .promo-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px auto;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .promo-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .gifts-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .gift-box {
+            width: 200px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .gift-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+        
+        .gift-box.open .gift-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .gift-front, .gift-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gift-front {
+            background: linear-gradient(45deg, #c62828, #e53935);
+            color: white;
+        }
+        
+        .gift-front i {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 5px 3px rgba(0,0,0,0.3));
+        }
+        
+        .gift-front h3 {
+            font-size: 1.5rem;
+            text-align: center;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .gift-back {
+            background: linear-gradient(45deg, #2e7d32, #4caf50);
+            color: white;
+            transform: rotateY(180deg);
+            overflow: hidden;
+        }
+        
+        .promo-code {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+            word-break: break-all;
+        }
+        
+        .promo-description {
+            font-size: 1rem;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .decoration {
+            position: absolute;
+            z-index: 1;
+        }
+        
+        .tree-left {
+            left: 20px;
+            bottom: 20px;
+            font-size: 5rem;
+            color: #2e7d32;
+            opacity: 0.7;
+        }
+        
+        .tree-right {
+            right: 20px;
+            bottom: 20px;
+            font-size: 5rem;
+            color: #2e7d32;
+            opacity: 0.7;
+        }
+        
+        .garland {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(90deg, 
+                #ff0000, #ff8800, #ffff00, #00ff00, 
+                #00ffff, #0000ff, #8800ff, #ff0000);
+            background-size: 800% 100%;
+            animation: garlandMove 10s linear infinite;
+            border-radius: 0 0 15px 15px;
+            z-index: 3;
+        }
+        
+        @keyframes garlandMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 800% 0%; }
+        }
+        
+        .message {
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin: 30px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .gifts-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tree-left, .tree-right {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Гирлянда -->
+    <div class="garland"></div>
+    
+    <!-- Снежинки -->
+    <div class="snowflakes" id="snowflakes"></div>
+    
+    <!-- Новогодние украшения -->
+    <div class="decoration tree-left">🎄</div>
+    <div class="decoration tree-right">🎄</div>
+    
+    <div class="container">
+        <header>
+            <h1 class="main-title">С Новым Годом, Бабушка!</h1>
+        </header>
+        
+        <section class="message">
+            <p>Дорогая бабушка! Пусть в новом году сбудутся все твои мечты, здоровье будет крепким, а сердце наполняется радостью от каждого дня! Мы тебя очень любим и ценим!</p>
+        </section>
+        
+        <section class="gallery-section">
+            <h2 class="gallery-title">Это мы с вами</h2>
+            <div class="gallery-container">
+                <div class="gallery-image">
+                    <img src="https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Новогодняя семья" id="current-image">
+                </div>
+                
+                <div class="gallery-controls">
+                    <button class="gallery-btn" id="prev-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div class="image-counter">
+                        <span id="current-index">1</span> / <span id="total-images">4</span>
+                    </div>
+                    <button class="gallery-btn" id="next-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="promo-section">
+            <h2 class="promo-title">Небольшие промокоды - подарочки</h2>
+            <p style="text-align: center; margin-bottom: 20px; font-size: 1.2rem;">Нажми на подарки, чтобы открыть промокоды!</p>
+            
+            <div class="gifts-container">
+                <!-- Подарок 1 -->
+                <div class="gift-box" id="gift1">
+                    <div class="gift-inner">
+                        <div class="gift-front">
+                            <i class="fas fa-gem"></i>
+                            <h3>Золотое украшение</h3>
+                        </div>
+                        <div class="gift-back">
+                            <div class="promo-code">QAPLF</div>
+                            <div class="promo-description">585 золотое украшение</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Подарок 2 -->
+                <div class="gift-box" id="gift2">
+                    <div class="gift-inner">
+                        <div class="gift-front">
+                            <i class="fas fa-book-open"></i>
+                            <h3>Читай город</h3>
+                        </div>
+                        <div class="gift-back">
+                            <div class="promo-code">t2v2n7s58</div>
+                            <div class="promo-description">Скидка 25% от 5 книг</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Подарок 3 -->
+                <div class="gift-box" id="gift3">
+                    <div class="gift-inner">
+                        <div class="gift-front">
+                            <i class="fas fa-lightbulb"></i>
+                            <h3>Sanlight подвеска</h3>
+                        </div>
+                        <div class="gift-back">
+                            <div class="promo-code">ppd940120090</div>
+                            <div class="promo-description">Стильная подвеска Sanlight</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>С любовью, ваша семья. © 2023 Новый Год</p>
+            <p style="margin-top: 10px;">Все промокоды действительны до 31.01.2024</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Галерея изображений
+        const images = [
+            "https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80",
+            "https://images.unsplash.com/photo-1543083115-638c32cd3d58?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80",
+            "https://images.unsplash.com/photo-1576831387370-9a6c5ba0a0f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80",
+            "https://images.unsplash.com/photo-1485796826113-174aa68fd81b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80"
+        ];
+        
+        let currentImageIndex = 0;
+        const currentImageElement = document.getElementById('current-image');
+        const currentIndexElement = document.getElementById('current-index');
+        const totalImagesElement = document.getElementById('total-images');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        // Устанавливаем общее количество изображений
+        totalImagesElement.textContent = images.length;
+        
+        // Функция обновления изображения
+        function updateImage() {
+            currentImageElement.src = images[currentImageIndex];
+            currentIndexElement.textContent = currentImageIndex + 1;
+        }
+        
+        // События для кнопок
+        prevBtn.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            updateImage();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateImage();
+        });
+        
+        // Инициализация
+        updateImage();
+        
+        // Открытие подарков
+        const gifts = document.querySelectorAll('.gift-box');
+        
+        gifts.forEach(gift => {
+            gift.addEventListener('click', () => {
+                // Если подарок уже открыт, закроем его, иначе откроем
+                if (gift.classList.contains('open')) {
+                    gift.classList.remove('open');
+                } else {
+                    // Сначала закроем все подарки
+                    gifts.forEach(g => g.classList.remove('open'));
+                    // Затем откроем текущий
+                    gift.classList.add('open');
+                }
+            });
+        });
+        
+        // Создание снежинок
+        function createSnowflakes() {
+            const snowflakesContainer = document.getElementById('snowflakes');
+            const snowflakeCount = 80;
+            
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                
+                // Случайный размер от 3 до 10px
+                const size = Math.random() * 7 + 3;
+                snowflake.style.width = `${size}px`;
+                snowflake.style.height = `${size}px`;
+                
+                // Случайная начальная позиция
+                snowflake.style.left = `${Math.random() * 100}%`;
+                snowflake.style.top = `${Math.random() * 100}%`;
+                
+                // Случайная продолжительность анимации
+                const duration = Math.random() * 10 + 10;
+                snowflake.style.animation = `fall ${duration}s linear infinite`;
+                
+                // Случайная задержка анимации
+                const delay = Math.random() * 10;
+                snowflake.style.animationDelay = `${delay}s`;
+                
+                snowflakesContainer.appendChild(snowflake);
+            }
+            
+            // Добавляем стили для падения снежинок
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fall {
+                    0% {
+                        transform: translateY(-100px) rotate(0deg);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: translateY(100vh) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Запускаем создание снежинок после загрузки страницы
+        window.addEventListener('DOMContentLoaded', createSnowflakes);
+    </script>
+</body>
+</html>
+```
+
+Как выложить сайт на временный хостинг
+
+Вы можете легко выложить этот сайт на бесплатный временный хостинг одним из следующих способов:
+
+1. GitHub Pages (самый простой способ):
+
+· Создайте аккаунт на GitHub если его нет
+· Создайте новый репозиторий
+· Загрузите этот HTML файл с именем index.html
+· В настройках репозитория найдите раздел "Pages" и выберите ветку main
+· Через пару минут сайт будет доступен по адресу ваш-логин.github.io/имя-репозитория
+
+2. Netlify:
+
+· Зайдите на netlify.com
+· Перетащите HTML файл в область загрузки
+· Сайт будет сразу развернут с собственным доменом
+
+3. Vercel:
+
+· Зарегистрируйтесь на vercel.com
+· Нажмите "New Project"
+· Загрузите HTML файл
+· Получите временный URL
+
+4. 000webhost:
+
+· Бесплатный хостинг с поддержкой HTML
+· Зарегистрируйтесь на 000webhost.com
+· Загрузите файлы через файловый менеджер
+
+Самый быстрый вариант:
+
+Скопируйте весь код выше, сохраните как index.html на компьютере, затем просто откройте этот файл в браузере - сайт будет работать локально. Чтобы поделиться с бабушкой, можно использовать GitHub Pages или отправить ей файл по почте.
+
+Сайт включает:
+
+· Анимированные снежинки
+· Галерею с листанием изображений
+· Интерактивные подарки с промокодами
+· Новогодний дизайн с гирляндами и украшениями
+· Адаптивность для мобильных устройств
